@@ -59,7 +59,19 @@ articleView.handleCategoryFilter = function() {
   //       is selected, hide all the articles, then reveal the matches.
   //       When the blank (default) option is selected, show all the articles,
   //       except for the template. Be sure to reset the #author-filter while you are at it!
-
+  $('#category-filter').on('change', function() {
+    if($(this).val()){
+      var $choice = $(this).val();
+      $('#articles article').hide();
+      $('#articles article').each(function() {
+        if((this).data('category') === $choice) {
+          $(this).show('slow');
+        }
+      });
+    }else{
+      $('.template').hide();
+    }
+  });
 };
 
 articleView.handleMainNav = function() {
