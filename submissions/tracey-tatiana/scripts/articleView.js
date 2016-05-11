@@ -46,7 +46,7 @@ articleView.handleAuthorFilter = function() {
       // TODO: Otherwise, we should:
       //       1. Show all the articles,
       //       2. Except the one article we are using as a template.
-
+      $('.template').hide();
     }
     // Reset the category-filter:
     $('#category-filter').val('');
