@@ -112,6 +112,11 @@ articleView.setTeasers = function() {
   //       Ideally, we should attach this as just 1 event handler
   //       on the #articles section, and let it process any .read-on clicks that
   //       happen.
+  $('.read-on').on('click', function(event) {
+    event.preventDefault();
+    $('.article-body *:nth-of-type(n+2)').show('slow');
+    $('.read-on').hide();
+  });
 };
 
 // TODO: Call all of the above functions, once we are sure the DOM is ready.
