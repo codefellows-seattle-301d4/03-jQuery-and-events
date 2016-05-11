@@ -28,28 +28,28 @@ articleView.populateFilters = function() {
 
 articleView.handleAuthorFilter = function() {
   $('#author-filter').on('change', function() {
-    console.log('on change');
     if ($(this).val()) {
-      // TODO: If the select box was changed to an option that has a value, we need to:
-      //       1. Hide all the articles,
+      // TODO:DONE If the select box was changed to an option that has a value, we need to:
+      //      1. Hide all the articles,
       //       2. Fade in only the articles that match based on the author that was selected.
       //          Use an "attribute selector" to find those articles that match the value,
       //          and fade them in for the reader.
       $('article').hide();
-      // // $('article').attr('data-author').each( function(index){ console.log(this); } );
-      // console.log($('article').find('data-author', $(this).val() ));
+
       var val = $(this).val();
       $('article').each( function() {
         if( $(this).attr('data-author') === val){
-          console.log('we have a match');
           $(this).fadeIn(2000);
         }
       });
 
     } else {
-      // TODO: Otherwise, we should:
+      // TODO:DONE Otherwise, we should:
       //       1. Show all the articles,
       //       2. Except the one article we are using as a template.
+
+      $('article').show();
+      $('article.template').hide();
 
     }
     // Reset the category-filter:
@@ -58,11 +58,30 @@ articleView.handleAuthorFilter = function() {
 };
 
 articleView.handleCategoryFilter = function() {
-  // TODO: Just like we do for #author-filter above, we should handle change
+  // TODO:DONE Just like we do for #author-filter above, we should handle change
   //       events on the #category-filter element. When an option with a value
   //       is selected, hide all the articles, then reveal the matches.
   //       When the blank (default) option is selected, show all the articles,
   //       except for the template. Be sure to reset the #author-filter while you are at it!
+  $('#category-filter').on('change', function() {
+    if ($(this).val()) {
+      $('article').hide();
+
+      var val = $(this).val();
+      $('article').each( function() {
+        if( $(this).attr('data-category') === val){
+          $(this).fadeIn(2000);
+        }
+      });
+
+    } else {
+
+      $('article').show();
+      $('article.template').hide();
+
+    }
+    $('#author-filter').val('');
+  });
 
 };
 
@@ -97,5 +116,9 @@ articleView.setTeasers = function() {
   //       happen.
 };
 
-// TODO: Call all of the above functions, once we are sure the DOM is ready.
-$(document).ready(/* complete this callback! */);
+// TODO:DONE Call all of the above functions, once we are sure the DOM is ready.
+$(document).ready(function(){
+  articleView.populateFilters();
+  articleView.handleCategoryFilter();
+  articleView.handleAuthorFilter();
+});
