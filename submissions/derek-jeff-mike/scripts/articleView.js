@@ -86,7 +86,7 @@ articleView.handleCategoryFilter = function() {
 };
 
 articleView.handleMainNav = function() {
-  // TODO: Add a delegated event handler to .main-nav element below that will
+  // TODO:DONE Add a delegated event handler to .main-nav element below that will
   //        power the Tabs feature.
   //       Clicking any .tab element should:
   //        1. hide all the .tab-content sections.
@@ -95,7 +95,15 @@ articleView.handleMainNav = function() {
   //         You may need to dynamically build a selector string (concatenation???)
   //          with the correct ID, based on the data available to you on the .tab
   //          element that was clicked.
-  $('.main-nav').on(/* CODE GOES HERE */);
+  $('.main-nav').on('click', '.tab', function(){
+    var val = $(this).attr('data-content');
+    $('.tab-content').hide();
+    $('.tab-content').each(function(index){
+      if($(this).attr('id') === val){
+        $(this).fadeIn(2000);
+      }
+    });
+  });
 
   // Let's now trigger a click on the first .tab element, to set up the page:
   $('.main-nav .tab:first').click();
@@ -106,7 +114,7 @@ articleView.setTeasers = function() {
   // in any artcile body:
   $('.article-body *:nth-of-type(n+2)').hide();
 
-  // TODO: Add a delegated event handler to reveal the remaining paragraph.
+  // TODO:DONE Add a delegated event handler to reveal the remaining paragraph.
   //       When a .read-on link is clicked, we can:
   //        1. Prevent the default action of a link (to navigate away from the page).
   //        2. Reveal everything in that particular article now.
@@ -114,6 +122,17 @@ articleView.setTeasers = function() {
   //       Ideally, we should attach this as just 1 event handler
   //       on the #articles section, and let it process any .read-on clicks that
   //       happen.
+  $('#articles').on('click', '.read-on', function(event){
+    event.preventDefault();
+    console.log($(this).text());
+    if($(this).text() === 'Show Less'){
+      $('.article-body *:nth-of-type(n+2)').hide();
+      $(this).html('Read on &rarr;');
+    } else {
+      $(this).text('Show Less');
+      $(this).parent().find('.article-body *:nth-of-type(n+2)').fadeIn(2000);
+    }
+  });
 };
 
 // TODO:DONE Call all of the above functions, once we are sure the DOM is ready.
@@ -121,4 +140,6 @@ $(document).ready(function(){
   articleView.populateFilters();
   articleView.handleCategoryFilter();
   articleView.handleAuthorFilter();
+  articleView.handleMainNav();
+  articleView.setTeasers();
 });
