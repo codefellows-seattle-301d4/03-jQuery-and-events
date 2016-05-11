@@ -49,7 +49,7 @@ articleView.handleAuthorFilter = function() {
       $('.template').hide();
     }
     // Reset the category-filter:
-    $('#category-filter').val('');
+    $('#author-filter').val('');
   });
 };
 
@@ -59,7 +59,20 @@ articleView.handleCategoryFilter = function() {
   //       is selected, hide all the articles, then reveal the matches.
   //       When the blank (default) option is selected, show all the articles,
   //       except for the template. Be sure to reset the #author-filter while you are at it!
-
+  $('#category-filter').on('change', function() {
+    if($(this).val()){
+      var $choice = $(this).val();
+      $('#articles article').hide();
+      $('#articles article').each(function() {
+        if($(this).data('category') === $choice) {
+          $(this).show('slow');
+        }
+      });
+    }else{
+      $('.template').hide();
+    }
+    $('#category-filter').val('');
+  });
 };
 
 articleView.handleMainNav = function() {
@@ -72,7 +85,17 @@ articleView.handleMainNav = function() {
   //         You may need to dynamically build a selector string (concatenation???)
   //          with the correct ID, based on the data available to you on the .tab
   //          element that was clicked.
-  $('.main-nav').on(/* CODE GOES HERE */);
+  $('.main-nav').on('click', '.tab', function() {
+    $('#articles article').show();
+    $('.template').hide();
+    var $choice = $(this).data('content');
+    $('.tab-content').hide();
+    $('.tab-content').each(function() {
+      if($(this).attr('id') === $choice){
+        $(this).show('slow');
+      }
+    });
+  });
 
   // Let's now trigger a click on the first .tab element, to set up the page:
   $('.main-nav .tab:first').click();
@@ -91,7 +114,18 @@ articleView.setTeasers = function() {
   //       Ideally, we should attach this as just 1 event handler
   //       on the #articles section, and let it process any .read-on clicks that
   //       happen.
+  $('.read-on').on('click', function(event) {
+    event.preventDefault();
+    $('.article-body *:nth-of-type(n+2)').show('slow');
+    $('.read-on').hide();
+  });
 };
 
 // TODO: Call all of the above functions, once we are sure the DOM is ready.
-$(document).ready(/* complete this callback! */);
+$(document).ready(function() {
+  articleView.populateFilters();
+  articleView.handleAuthorFilter();
+  articleView.handleCategoryFilter();
+  articleView.handleMainNav();
+  articleView.setTeasers();
+});
