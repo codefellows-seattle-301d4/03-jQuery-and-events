@@ -34,12 +34,19 @@ articleView.handleAuthorFilter = function() {
       //       2. Fade in only the articles that match based on the author that was selected.
       //          Use an "attribute selector" to find those articles that match the value,
       //          and fade them in for the reader.
-
+      $('article').hide();
+      var filterValue = $(this).val();
+      $('article').each(function() {
+        var currentArticle = $(this);
+        if(currentArticle.attr('data-author') === filterValue) {
+          currentArticle.fadeIn();
+        }
+      });
     } else {
       // TODO: Otherwise, we should:
       //       1. Show all the articles,
       //       2. Except the one article we are using as a template.
-
+      $('article').not('.template').fadeIn();
     }
     // Reset the category-filter:
     $('#category-filter').val('');
@@ -52,7 +59,24 @@ articleView.handleCategoryFilter = function() {
   //       is selected, hide all the articles, then reveal the matches.
   //       When the blank (default) option is selected, show all the articles,
   //       except for the template. Be sure to reset the #author-filter while you are at it!
-
+  $('#category-filter').on('change', function() {
+    if($(this).val()) {
+      $('article').hide();
+      var filterValue = $(this).val();
+      $('article').each(function() {
+        var currentArticle = $(this);
+        if(filterValue === currentArticle.attr('data-category')) {
+          currentArticle.fadeIn();
+        }
+      });
+    } else {
+      // TODO: Otherwise, we should:
+      //       1. Show all the articles,
+      //       2. Except the one article we are using as a template.
+      $('article').not('.template').fadeIn();
+    }
+    $('#author-filter').val('');
+  });
 };
 
 articleView.handleMainNav = function() {
@@ -87,4 +111,10 @@ articleView.setTeasers = function() {
 };
 
 // TODO: Call all of the above functions, once we are sure the DOM is ready.
-$(document).ready(/* complete this callback! */);
+$(document).ready(function () {
+  articleView.populateFilters();
+  articleView.handleAuthorFilter();
+  articleView.handleCategoryFilter();
+  // articleView.handleMainNav();
+  // articleView.setTeasers();
+});
