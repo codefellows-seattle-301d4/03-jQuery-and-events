@@ -84,6 +84,7 @@ articleView.setTeasers = function() {
   //       Ideally, we should attach this as just 1 event handler
   //       on the #articles section, and let it process any .read-on clicks that
   //       happen.
+  // STRETCH GOAL!: change the read more link to 'show less.'
 };
 
 // TODO: Call all of the above functions, once we are sure the DOM is ready.
