@@ -99,15 +99,20 @@ articleView.setTeasers = function() {
   //       When a .read-on link is clicked, we can:
   //        1. Prevent the default action of a link (to navigate away from the page).
     e.preventDefault();
-    var readOn = $(this).siblings('.article-body').children();
   //        2. Reveal everything in that particular article now.
-    readOn.show();
+    $(this).siblings('.article-body').children().show();
   //        3. Hide that read-on link!
-    $(this).hide();
+    $(this).html('&larr; Show Less').toggleClass('show-less');
+  });
+
   //       Ideally, we should attach this as just 1 event handler
   //       on the #articles section, and let it process any .read-on clicks that
   //       happen.
   // STRETCH GOAL!: change the read more link to 'show less.'
+  $('article').on('click', '.show-less', function(e) {
+    e.preventDefault();
+    $(this).siblings('.article-body').children('*:nth-of-type(n+2)').hide();
+    $(this).html('Read On &rarr;').toggleClass('show-less');
   });
 };
 
