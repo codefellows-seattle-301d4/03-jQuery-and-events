@@ -39,7 +39,7 @@ articleView.handleAuthorFilter = function() {
       // we know $(this).val() returns the author name - how to match?
       $('[data-author="' + $(this).val() + '"]').fadeIn();
     } else {
-      // TODO: Otherwise, we should:
+      // DONE: Otherwise, we should:
       //       1. Show all the articles,
       //       2. Except the one article we are using as a template.
       $('article').show();
