@@ -71,6 +71,7 @@ articleView.handleCategoryFilter = function() {
     }else{
       $('.template').hide();
     }
+    $('#author-filter').val('');
   });
 };
 
@@ -84,7 +85,15 @@ articleView.handleMainNav = function() {
   //         You may need to dynamically build a selector string (concatenation???)
   //          with the correct ID, based on the data available to you on the .tab
   //          element that was clicked.
-  $('.main-nav').on(/* CODE GOES HERE */);
+  $('.main-nav').on('click', '.tab', function() {
+    var $choice = $(this).data('content');
+    $('.tab-content').hide();
+    $('.tab-content').each(function() {
+      if($(this).attr('id') === $choice){
+        $(this).show('slow');
+      }
+    });
+  });
 
   // Let's now trigger a click on the first .tab element, to set up the page:
   $('.main-nav .tab:first').click();
