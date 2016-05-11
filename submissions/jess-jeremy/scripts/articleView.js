@@ -56,13 +56,31 @@ articleView.handleAuthorFilter = function() {
 };
 
 articleView.handleCategoryFilter = function() {
+  $('#category-filter').on('change', function() {
+    if ($(this).val()) {
+      var filterValue =  $(this).val();
+      $('article').hide();
+      $('article').each(function() {
+        var current = $(this);
+        if (current.attr('data-category') === filterValue) {
+          current.fadeToggle(700);
+        };
+      });
+    } else {
+      $('article').not('.template').show();
+    }
+    $('#author-filter').val('');
+  });
+};
+
+
   // TODO: Just like we do for #author-filter above, we should handle change
   //       events on the #category-filter element. When an option with a value
   //       is selected, hide all the articles, then reveal the matches.
   //       When the blank (default) option is selected, show all the articles,
   //       except for the template. Be sure to reset the #author-filter while you are at it!
 
-};
+
 
 articleView.handleMainNav = function() {
   // TODO: Add a delegated event handler to .main-nav element below that will
@@ -74,7 +92,12 @@ articleView.handleMainNav = function() {
   //         You may need to dynamically build a selector string (concatenation???)
   //          with the correct ID, based on the data available to you on the .tab
   //          element that was clicked.
-  $('.main-nav').on(/* CODE GOES HERE */);
+  $('.main-nav').on('click', 'li', function(e) {
+    e.preventDefault();
+    $('.tab-content').hide();
+    var show = $(this).attr('data-content');
+    $('#' + show).show();
+  });
 
   // Let's now trigger a click on the first .tab element, to set up the page:
   $('.main-nav .tab:first').click();
@@ -96,7 +119,9 @@ articleView.setTeasers = function() {
 };
 
 // TODO: Call all of the above functions, once we are sure the DOM is ready.
-$(document).ready(/* complete this callback! */
-  articleView.populateFilters(),
-  articleView.handleAuthorFilter()
-);
+$(document).ready( function(){
+  articleView.populateFilters();
+  articleView.handleAuthorFilter();
+  articleView.handleCategoryFilter();
+  articleView.handleMainNav();
+});
