@@ -61,7 +61,21 @@ articleView.handleCategoryFilter = function() {
   //       is selected, hide all the articles, then reveal the matches.
   //       When the blank (default) option is selected, show all the articles,
   //       except for the template. Be sure to reset the #author-filter while you are at it!
-
+  $('#category-filter').on('change', function(){
+    if($(this).val()){
+      var $value = $(this).val();
+      $('article').hide();
+      $('article').each(function(){
+        if($(this).data('category') === $value){
+          $(this).show();
+        }
+      });
+    }
+    else{
+      $('article').not('template').show();
+    }
+    $('#author-filter').val('');
+  });
 };
 
 articleView.handleMainNav = function() {
@@ -74,7 +88,14 @@ articleView.handleMainNav = function() {
   //         You may need to dynamically build a selector string (concatenation???)
   //          with the correct ID, based on the data available to you on the .tab
   //          element that was clicked.
-  $('.main-nav').on(/* CODE GOES HERE */);
+  $('.main-nav').on('click', 'li',function(){
+    var $clicked = $(this).data('content');
+    $('.tab-content').hide();
+    // if( === $clicked)
+    console.log($clicked);
+    $('#' + $clicked).show();
+
+  });
 
   // Let's now trigger a click on the first .tab element, to set up the page:
   $('.main-nav .tab:first').click();
@@ -84,7 +105,6 @@ articleView.setTeasers = function() {
   // Hide any elements after the first 2 (<p> tags in this case)
   // in any artcile body:
   $('.article-body *:nth-of-type(n+2)').hide();
-
   // TODO: Add a delegated event handler to reveal the remaining paragraph.
   //       When a .read-on link is clicked, we can:
   //        1. Prevent the default action of a link (to navigate away from the page).
@@ -93,7 +113,17 @@ articleView.setTeasers = function() {
   //       Ideally, we should attach this as just 1 event handler
   //       on the #articles section, and let it process any .read-on clicks that
   //       happen.
+  $('article').on('click', '.read-on', function(e){
+    e.preventDefault();
+    $(this).parent('p').show();
+  });
 };
 
 // TODO: Call all of the above functions, once we are sure the DOM is ready.
-$(document).ready(/* complete this callback! */);
+$(document).ready(function(){
+  articleView.populateFilters();
+  articleView.handleAuthorFilter();
+  articleView.handleCategoryFilter();
+  articleView.handleMainNav();
+  articleView.setTeasers();
+});
