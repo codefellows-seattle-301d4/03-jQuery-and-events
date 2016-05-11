@@ -34,12 +34,20 @@ articleView.handleAuthorFilter = function() {
       //       2. Fade in only the articles that match based on the author that was selected.
       //          Use an "attribute selector" to find those articles that match the value,
       //          and fade them in for the reader.
-
+      //-----DONE-----
+      $('#articles').find('article').hide();
+      var $value = $(this).val();
+      $('#articles').find('article').each(function() {
+        if ($(this).data('author') === $value) {
+          $(this).fadeIn();
+        }
+      });
     } else {
       // TODO: Otherwise, we should:
       //       1. Show all the articles,
       //       2. Except the one article we are using as a template.
-
+      //-----DONE-----
+      $('#articles').find('article').not('.template').show();
     }
     // Reset the category-filter:
     $('#category-filter').val('');
@@ -52,7 +60,20 @@ articleView.handleCategoryFilter = function() {
   //       is selected, hide all the articles, then reveal the matches.
   //       When the blank (default) option is selected, show all the articles,
   //       except for the template. Be sure to reset the #author-filter while you are at it!
-
+  //-----DONE-----
+  $('#category-filter').on('change', function() {
+    if ($(this).val()) {
+      $('#articles').find('article').hide();
+      var $value = $(this).val();
+      $('#articles').find('article').each(function() {
+        if ($(this).data('category') === $value) {
+          $(this).fadeIn();
+        }
+      });
+    } else {
+      $('#articles').find('article').not('.template').show();
+    }
+  });
 };
 
 articleView.handleMainNav = function() {
@@ -65,7 +86,11 @@ articleView.handleMainNav = function() {
   //         You may need to dynamically build a selector string (concatenation???)
   //          with the correct ID, based on the data available to you on the .tab
   //          element that was clicked.
-  $('.main-nav').on(/* CODE GOES HERE */);
+  $('.main-nav').on('click', '.tab', function() {
+    var $target = $(this).data('content');
+    $('.tab-content').hide();
+    $('#'+$target).fadeIn();
+  });
 
   // Let's now trigger a click on the first .tab element, to set up the page:
   $('.main-nav .tab:first').click();
@@ -84,7 +109,28 @@ articleView.setTeasers = function() {
   //       Ideally, we should attach this as just 1 event handler
   //       on the #articles section, and let it process any .read-on clicks that
   //       happen.
+  //-----DONE-----
+  $('#articles').on('click', '.read-on', function(e) {
+    e.preventDefault();
+    $(this).parent().find('p').show();
+    $(this).attr('class', 'read-less');
+    $(this).html('<a href="#" class="read-less">Read less &larr;</a>');
+  });
+  $('#articles').on('click', '.read-less', function(e) {
+    e.preventDefault();
+    $(this).parent().find('*:nth-of-type(n+2)').hide();
+    $(this).attr('class', 'read-on');
+    $(this).html('<a href="#" class="read-on">Read on &rarr;</a>');
+  });
 };
 
 // TODO: Call all of the above functions, once we are sure the DOM is ready.
-$(document).ready(/* complete this callback! */);
+//-----DONE-----
+$(document).ready(function() {
+  articleView.populateFilters();
+  articleView.handleAuthorFilter();
+  articleView.handleCategoryFilter();
+  articleView.handleMainNav();
+  articleView.setTeasers();
+});
+/* complete this callback! */
