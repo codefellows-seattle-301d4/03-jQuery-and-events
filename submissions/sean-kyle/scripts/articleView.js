@@ -114,8 +114,14 @@ articleView.setTeasers = function() {
     e.preventDefault();
     $(this).parent().find('p').show();
     $(this).hide();
-    
+    // $('.read-on').append('<a href="#" class="back-up">Back it up Ya\'ll</a>');
   });
+  // $('document').on('click', function(e){
+  //   console.log('fuck');
+  //   e.preventDefault();
+  //   $('.article-body *:nth-of-type(n+2)').hide();
+  //   $('.back-up').replaceWith('<a href="#" class="read-on">Read on &rarr;</a>');
+  // });
   //        2. Reveal everything in that particular article now.
   //        3. Hide that read-on link!
   //       Ideally, we should attach this as just 1 event handler
