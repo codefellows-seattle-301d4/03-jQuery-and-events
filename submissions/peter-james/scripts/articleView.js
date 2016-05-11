@@ -35,8 +35,9 @@ articleView.handleAuthorFilter = function() {
       //          Use an "attribute selector" to find those articles that match the value,
       //          and fade them in for the reader.
       $('article').hide();
-      $('article').attr('data-author', this).fadeIn();
-
+      // $('article[data-author]').find($(this).val()).fadeIn('fast');
+      // we know $(this).val() returns the author name - how to match?
+      $('[data-author="' + $(this).val() + '"]').fadeIn();
     } else {
       // TODO: Otherwise, we should:
       //       1. Show all the articles,
@@ -93,4 +94,7 @@ articleView.setTeasers = function() {
 };
 
 // TODO: Call all of the above functions, once we are sure the DOM is ready.
-$(document).ready(/* complete this callback! */);
+$(document).ready(function(){
+  articleView.populateFilters();
+  articleView.handleAuthorFilter();
+});
