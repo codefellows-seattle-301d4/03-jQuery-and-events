@@ -113,9 +113,9 @@ articleView.setTeasers = function() {
   //       Ideally, we should attach this as just 1 event handler
   //       on the #articles section, and let it process any .read-on clicks that
   //       happen.
-  $('article').on('click', '.read-on', function(e){
+  $('article').on('click','.read-on', function(e){
     e.preventDefault();
-    $(this).parent('p').show();
+    $(this).parent().find('p').show();
   });
 };
 
