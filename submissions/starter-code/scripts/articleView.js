@@ -89,11 +89,25 @@ articleView.handleMainNav = function() {
   //         You may need to dynamically build a selector string (concatenation???)
   //          with the correct ID, based on the data available to you on the .tab
   //          element that was clicked.
-  $('.main-nav').on(/* CODE GOES HERE */);
+
+  $('.main-nav').on('click', '.tab', function(e) {
+    e.preventDefault();
+    $('.tab-content').hide();
+
+    var tabName = $(this).data('content');
+
+    $('.tab-content').each( function () {
+      if ($(this).is('#' + tabName)) {
+        $(this).fadeIn();
+      }
+    });
+  });
 
   // Let's now trigger a click on the first .tab element, to set up the page:
   $('.main-nav .tab:first').click();
 };
+
+
 
 articleView.setTeasers = function() {
   // Hide any elements after the first 2 (<p> tags in this case)
@@ -108,6 +122,20 @@ articleView.setTeasers = function() {
   //       Ideally, we should attach this as just 1 event handler
   //       on the #articles section, and let it process any .read-on clicks that
   //       happen.
+
+  $('article').on('click', '.read-on', function(e) {
+    e.preventDefault();
+    if ($(this).hasClass('show-less')) {
+      $('.article-body *:nth-of-type(n+2)').hide();
+      $(this).toggleClass('show-less');
+      $(this).text('Read On');
+    } else {
+      $(this).toggleClass('show-less');
+      $('.article-body *:nth-of-type(n+2)').fadeIn();
+      $(this).text('Show Less');
+    }
+  });
+
 };
 
 // TODO: Call all of the above functions, once we are sure the DOM is ready.
@@ -115,6 +143,6 @@ $(document).ready(function () {
   articleView.populateFilters();
   articleView.handleAuthorFilter();
   articleView.handleCategoryFilter();
-  // articleView.handleMainNav();
-  // articleView.setTeasers();
+  articleView.handleMainNav();
+  articleView.setTeasers();
 });
