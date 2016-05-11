@@ -95,14 +95,20 @@ articleView.setTeasers = function() {
   $('.article-body *:nth-of-type(n+2)').hide();
 
   // TODO: Add a delegated event handler to reveal the remaining paragraph.
+  $('article').on('click', '.read-on', function(e) {
   //       When a .read-on link is clicked, we can:
   //        1. Prevent the default action of a link (to navigate away from the page).
+    e.preventDefault();
+    var readOn = $(this).siblings('.article-body').children();
   //        2. Reveal everything in that particular article now.
+    readOn.show();
   //        3. Hide that read-on link!
+    $(this).hide();
   //       Ideally, we should attach this as just 1 event handler
   //       on the #articles section, and let it process any .read-on clicks that
   //       happen.
   // STRETCH GOAL!: change the read more link to 'show less.'
+  });
 };
 
 // TODO: Call all of the above functions, once we are sure the DOM is ready.
@@ -111,4 +117,5 @@ $(document).ready(function(){
   articleView.handleAuthorFilter();
   articleView.handleCategoryFilter();
   articleView.handleMainNav();
+  articleView.setTeasers();
 });
