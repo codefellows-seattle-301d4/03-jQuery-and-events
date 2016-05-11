@@ -28,30 +28,31 @@ articleView.populateFilters = function() {
 
 articleView.handleAuthorFilter = function() {
   $('#author-filter').on('change', function() {
-    var $allArticles = $('article');
-    var $value = $(this).val();
-
-    if ($(this).val()) {
 
       // TODO: If the select box was changed to an option that has a value, we need to:
       //       1. Hide all the articles,
-      $allArticles.hide();
       //       2. Fade in only the articles that match based on the author that was selected.
+      //          Use an "attribute selector" to find those articles that match the value,
+      //          and fade them in for the reader.
+
+    var $allArticles = $('article');
+    var $value = $(this).val();
+    if ($value) {
+      $allArticles.hide();
       $allArticles.each(function(){
         if ($(this).data('author') === $value) {
           $(this).show();
         }
       });
 
-      //          Use an "attribute selector" to find those articles that match the value,
-      //          and fade them in for the reader.
 
     } else {
+
       // TODO: Otherwise, we should:
       //       1. Show all the articles,
-      $allArticles.not('.template').show();
       //       2. Except the one article we are using as a template.
 
+      $allArticles.not('.template').show();
     }
     // Reset the category-filter:
     $('#category-filter').val('');
@@ -59,15 +60,33 @@ articleView.handleAuthorFilter = function() {
 };
 
 articleView.handleCategoryFilter = function() {
-  // TODO: Just like we do for #author-filter above, we should handle change
-  //       events on the #category-filter element. When an option with a value
-  //       is selected, hide all the articles, then reveal the matches.
-  //       When the blank (default) option is selected, show all the articles,
-  //       except for the template. Be sure to reset the #author-filter while you are at it!
 
+  $('#category-filter').on('change', function() {
+
+    // TODO: Just like we do for #author-filter above, we should handle change
+    //       events on the #category-filter element. When an option with a value
+    //       is selected, hide all the articles, then reveal the matches.
+    //       When the blank (default) option is selected, show all the articles,
+    //       except for the template. Be sure to reset the #author-filter while you are at it!
+
+    var $allArticles = $('article');
+    var $value = $(this).val();
+    if ($value){
+      $allArticles.hide();
+      $allArticles.each(function(){
+        if ($(this).data('category') === $value) {
+          $(this).show();
+        }
+      });
+    } else {
+      $allArticles.not('.template').show();
+    }
+    $('#author-filter').val('');
+  });
 };
 
 articleView.handleMainNav = function() {
+
   // TODO: Add a delegated event handler to .main-nav element below that will
   //        power the Tabs feature.
   //       Clicking any .tab element should:
@@ -77,7 +96,16 @@ articleView.handleMainNav = function() {
   //         You may need to dynamically build a selector string (concatenation???)
   //          with the correct ID, based on the data available to you on the .tab
   //          element that was clicked.
-  $('.main-nav').on(/* CODE GOES HERE */);
+
+  $('.main-nav').on('click', 'li', function(){
+    var $value = $(this).attr('data-content');
+    $('.tab-content').hide();
+    $('.tab-content').each(function(){
+      if($(this).attr('id') === $value){
+        $(this).fadeIn(1000);
+      }
+    });
+  });
 
   // Let's now trigger a click on the first .tab element, to set up the page:
   $('.main-nav .tab:first').click();
@@ -96,7 +124,19 @@ articleView.setTeasers = function() {
   //       Ideally, we should attach this as just 1 event handler
   //       on the #articles section, and let it process any .read-on clicks that
   //       happen.
+
+  $('#articles').on('click', 'a', function(e){
+    e.preventDefault();
+    $(this).parent().find('*').show();
+    $(this).hide();
+  });
 };
 
 // TODO: Call all of the above functions, once we are sure the DOM is ready.
-$(document).ready(/* complete this callback! */);
+$(document).ready(function(){
+  articleView.populateFilters();
+  articleView.handleAuthorFilter();
+  articleView.handleCategoryFilter();
+  articleView.handleMainNav();
+  articleView.setTeasers();
+});
