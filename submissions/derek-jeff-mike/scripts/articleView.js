@@ -28,12 +28,23 @@ articleView.populateFilters = function() {
 
 articleView.handleAuthorFilter = function() {
   $('#author-filter').on('change', function() {
+    console.log('on change');
     if ($(this).val()) {
       // TODO: If the select box was changed to an option that has a value, we need to:
       //       1. Hide all the articles,
       //       2. Fade in only the articles that match based on the author that was selected.
       //          Use an "attribute selector" to find those articles that match the value,
       //          and fade them in for the reader.
+      $('article').hide();
+      // // $('article').attr('data-author').each( function(index){ console.log(this); } );
+      // console.log($('article').find('data-author', $(this).val() ));
+      var val = $(this).val();
+      $('article').each( function() {
+        if( $(this).attr('data-author') === val){
+          console.log('we have a match');
+          $(this).fadeIn(2000);
+        }
+      });
 
     } else {
       // TODO: Otherwise, we should:
