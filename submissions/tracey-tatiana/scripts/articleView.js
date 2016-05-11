@@ -49,7 +49,7 @@ articleView.handleAuthorFilter = function() {
       $('.template').hide();
     }
     // Reset the category-filter:
-    $('#category-filter').val('');
+    $('#author-filter').val('');
   });
 };
 
@@ -64,14 +64,14 @@ articleView.handleCategoryFilter = function() {
       var $choice = $(this).val();
       $('#articles article').hide();
       $('#articles article').each(function() {
-        if((this).data('category') === $choice) {
+        if($(this).data('category') === $choice) {
           $(this).show('slow');
         }
       });
     }else{
       $('.template').hide();
     }
-    $('#author-filter').val('');
+    $('#category-filter').val('');
   });
 };
 
@@ -86,6 +86,8 @@ articleView.handleMainNav = function() {
   //          with the correct ID, based on the data available to you on the .tab
   //          element that was clicked.
   $('.main-nav').on('click', '.tab', function() {
+    $('#articles article').show();
+    $('.template').hide();
     var $choice = $(this).data('content');
     $('.tab-content').hide();
     $('.tab-content').each(function() {
