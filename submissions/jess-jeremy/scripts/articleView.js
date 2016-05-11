@@ -93,7 +93,7 @@ articleView.handleMainNav = function() {
   //          with the correct ID, based on the data available to you on the .tab
   //          element that was clicked.
   $('.main-nav').on('click', 'li', function(e) {
-    e.preventDefault();
+    // e.preventDefault();
     $('.tab-content').hide();
     var show = $(this).attr('data-content');
     $('#' + show).show();
@@ -107,6 +107,17 @@ articleView.setTeasers = function() {
   // Hide any elements after the first 2 (<p> tags in this case)
   // in any artcile body:
   $('.article-body *:nth-of-type(n+2)').hide();
+  $('.read-on').on('click', function(e) {
+    e.preventDefault();
+    $('.article-body *:nth-of-type(n+2)').show();
+    $('.read-on').hide();
+    // $('.read-on').text('Less');
+    // $('.read-on').on('click', function(e) {
+    //   e.preventDefault();
+    //   $('.article-body *:nth-of-type(n+2)').hide();
+    // });
+  });
+
 
   // TODO: Add a delegated event handler to reveal the remaining paragraph.
   //       When a .read-on link is clicked, we can:
@@ -124,4 +135,5 @@ $(document).ready( function(){
   articleView.handleAuthorFilter();
   articleView.handleCategoryFilter();
   articleView.handleMainNav();
+  articleView.setTeasers();
 });
