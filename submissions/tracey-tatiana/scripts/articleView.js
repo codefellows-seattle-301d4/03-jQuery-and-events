@@ -34,6 +34,13 @@ articleView.handleAuthorFilter = function() {
       //       2. Fade in only the articles that match based on the author that was selected.
       //          Use an "attribute selector" to find those articles that match the value,
       //          and fade them in for the reader.
+      var $choice = $(this).val();
+      $('#articles article').hide();
+      $('#articles article').each(function(){
+        if($(this).data('author') === $choice){
+          $(this).show('slow');
+        }
+      });
 
     } else {
       // TODO: Otherwise, we should:
