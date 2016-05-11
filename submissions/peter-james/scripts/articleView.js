@@ -29,7 +29,7 @@ articleView.populateFilters = function() {
 articleView.handleAuthorFilter = function() {
   $('#author-filter').on('change', function() {
     if ($(this).val()) {
-      // TODO: If the select box was changed to an option that has a value, we need to:
+      // DONE: If the select box was changed to an option that has a value, we need to:
       //       1. Hide all the articles,
       //       2. Fade in only the articles that match based on the author that was selected.
       //          Use an "attribute selector" to find those articles that match the value,
@@ -42,9 +42,8 @@ articleView.handleAuthorFilter = function() {
       // TODO: Otherwise, we should:
       //       1. Show all the articles,
       //       2. Except the one article we are using as a template.
-      if(!$('article').hasClass('template')) {
-        $('article').show();
-      }
+      $('article').show();
+      $('.template').hide();
 
     }
     // Reset the category-filter:
