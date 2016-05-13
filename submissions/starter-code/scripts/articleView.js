@@ -10,7 +10,7 @@ articleView.populateFilters = function() {
       //       text to create the option tag (in a variable named `optionTag`),
       //       that we can append to the #author-filter select element.
       //       YAY, DOM manipulation!
-      var val = $(this).find('address a').text();
+      var val = $(this).find('address').text();
       var optionTag = '<option value="' + val + '">' + val + '</option>';
       $('#author-filter').append(optionTag);
 
@@ -35,11 +35,11 @@ articleView.handleAuthorFilter = function() {
       //          Use an "attribute selector" to find those articles that match the value,
       //          and fade them in for the reader.
       $('article').hide();
-      var filterValue = $(this).val();
+      var $filterValue = $(this).val();
       $('article').each(function() {
-        var currentArticle = $(this);
-        if(currentArticle.attr('data-author') === filterValue) {
-          currentArticle.fadeIn();
+        var $currentArticle = $(this);
+        if($currentArticle.attr('data-author') === $filterValue) {
+          $currentArticle.fadeIn();
         }
       });
     } else {
@@ -62,11 +62,11 @@ articleView.handleCategoryFilter = function() {
   $('#category-filter').on('change', function() {
     if($(this).val()) {
       $('article').hide();
-      var filterValue = $(this).val();
+      var $filterValue = $(this).val();
       $('article').each(function() {
-        var currentArticle = $(this);
-        if(filterValue === currentArticle.attr('data-category')) {
-          currentArticle.fadeIn();
+        var $currentArticle = $(this);
+        if($filterValue === $currentArticle.attr('data-category')) {
+          $currentArticle.fadeIn();
         }
       });
     } else {
@@ -94,13 +94,16 @@ articleView.handleMainNav = function() {
     e.preventDefault();
     $('.tab-content').hide();
 
-    var tabName = $(this).data('content');
+    var $tabName = $(this).data('content');
 
     $('.tab-content').each( function () {
-      if ($(this).is('#' + tabName)) {
+      if ($(this).is('#' + $tabName)) {
         $(this).fadeIn();
       }
     });
+    $('#category-filter').val('');
+    $('#author-filter').val('');
+    $('article').not('.template').fadeIn();
   });
 
   // Let's now trigger a click on the first .tab element, to set up the page:
@@ -124,15 +127,16 @@ articleView.setTeasers = function() {
   //       happen.
 
   $('article').on('click', '.read-on', function(e) {
+    console.log($(this).text().indexOf('Read on'));
     e.preventDefault();
     if ($(this).hasClass('show-less')) {
       $('.article-body *:nth-of-type(n+2)').hide();
       $(this).toggleClass('show-less');
-      $(this).text('Read On');
+      $(this).html('Read On &rarr;');
     } else {
       $(this).toggleClass('show-less');
       $('.article-body *:nth-of-type(n+2)').fadeIn();
-      $(this).text('Show Less');
+      $(this).html('Show Less &larr;');
     }
   });
 
